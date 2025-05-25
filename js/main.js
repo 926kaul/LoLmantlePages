@@ -1,7 +1,7 @@
 let championData = [];
 
 function loadData() {
-  Papa.parse("/data/data.csv", {
+  Papa.parse("data/data.csv", {
     download: true,
     header: true,
     complete: function (results) {
