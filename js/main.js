@@ -37,7 +37,6 @@ function showSuggestions(input) {
 
   box.style.display = "block";
 
-  // 클릭 시 입력창에 반영
   document.querySelectorAll(".suggestion-item").forEach((el) =>
     el.addEventListener("click", () => {
       document.getElementById("search_input").value = el.textContent;
@@ -57,26 +56,32 @@ function searchChampion(inputKorName) {
     return;
   }
 
-  // 정답 여부 확인
   if (Number(guess.rank) === 0) {
     alert("🎉 정답입니다!");
   }
 
-  const table = document.getElementById("guesses");
-  const row = table.insertRow();
+  const tableBody = document.querySelector("#guesses tbody");
+  const row = tableBody.insertRow();
   row.innerHTML = `
     <td><strong>${guess.kor_name}</strong></td>
-    <td>유사도: ${guess.simularity}</td>
-    <td>순위: ${guess.rank}</td>
-    <td>역할군: ${guess.tag1} / ${guess.tag2}</td>
-    <td>라인: ${guess.position1} / ${guess.position2}</td>
-    <td>출시순: ${Number(guess.release_code) + 1}</td>
+    <td>${guess.simularity}</td>
+    <td>${guess.rank}</td>
+    <td>${guess.tag1} / ${guess.tag2}</td>
+    <td>${guess.attack_range}</td>
+    <td>${guess.position1} / ${guess.position2}</td>
+    <td>${guess.rune}</td>
+    <td>${guess.items}</td>
+    <td>${guess.tier}</td>
+    <td>${guess.region}</td>
+    <td>${guess.related_champions}</td>
+    <td>${Number(guess.release_code) + 1}</td>
   `;
 }
 
 function setupFAQToggle() {
   const faqTitle = document.getElementById("faq");
   const faqContent = document.getElementById("faqa");
+  if (!faqTitle || !faqContent) return;
 
   faqTitle.addEventListener("click", () => {
     const isHidden = faqContent.style.display === "none";
