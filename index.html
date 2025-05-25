@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta name="og:type" content="website">
+  <meta name="og:title" content="LoLmantle">
+  <meta property="og:url" content="lolmantle.kro.kr">
+  <meta name="og:description" content="오늘의 롤 챔피언을 맞춰보세요! 롤 챔피언 이름을 입력하면 정답과의 유사도를 알려드립니다.">
+
+  <title>LoLmantle</title>
+  <script src="https://kit.fontawesome.com/68bc89786b.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/ie.js"></script>
+
+  <!-- ✅ 추가된 스크립트 -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+  <script defer src="js/main.js"></script>
+
+  <!-- 파비콘 생략 없이 유지 -->
+  <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+  <div class="inner">
+    <div>
+      <h1><a href="#">LoLmantle</a></h1>
+      <div id="current_date">
+        <script>
+          const date = new Date();
+          const year = ('' + date.getFullYear()).slice(-2);
+          const month = ('0' + (date.getMonth() + 1)).slice(-2);
+          const day = ('0' + date.getDate()).slice(-2);
+          document.write("#" + year + month + day);
+        </script>
+      </div>
+      <div id="lang_selection">
+        <select>
+          <option value="kor" selected>한국어</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="search_wrapper">
+    <div class="mid_wrapper">
+      <!-- 검색창 -->
+      <input type="text" id="search_input" autocomplete="off">
+      <!-- 검색버튼 -->
+      <button id="search_button">검색</button>
+    </div>
+
+    <!-- 자동완성 추천창 -->
+    <div id="suggestion_box" style="display: none;">
+      <div id="suggested_items"></div>
+    </div>
+  </div>
+
+  <!-- 검색 결과 테이블 -->
+  <table id="guesses"></table>
+
+  <!-- 기존 jQuery 유지 -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+
+<footer>
+  <hr>
+  <!-- ✅ FAQ 토글 대상 -->
+  <h3 id="faq">질문과 답변 (숨김)</h3>
+  <div id="faqa" style="display: none;">
+    <p><b>Q. LoLmantle은 무엇인가요?</b></p>
+    <ul>
+      <li>
+        LoLmantle은 오늘의 롤 챔피언을 맞히는 게임입니다. 정답 챔피언을 추측하면, 추측한 챔피언과 정답이 얼마나 유사한지를 유사도 점수로 알려줍니다.
+        LoLmantle은 <a href="https://semantle.novalis.org/" target="_blank">Semantle</a>과
+        <a href="https://pokemantle.update.sh/" target="_blank">Pokémantle</a>에서 영감을 받았습니다.
+      </li>
+    </ul>
+    <p><b>Q. 어떤 챔피언이 포함되어 있나요?</b></p>
+    <ul>
+      <li>현재 14.2 패치 기준으로 스몰더까지 167개 챔피언이 포함되어 있습니다.</li>
+    </ul>
+    <p><b>Q. 유사도는 어떻게 계산되나요?</b></p>
+    <ul>
+      <li>역할군, 사거리, 라인, 룬, 아이템, 티어, 지역, 관련 챔피언, 출시순 등 9가지 기준으로 계산됩니다.</li>
+    </ul>
+    <p><b>Q. 하루에 한 번만 플레이 가능한가요?</b></p>
+    <ul>
+      <li>네. Wordle과 같은 컨셉으로 하루 한 번만 플레이할 수 있습니다.</li>
+    </ul>
+    <p><b>Q. 정답인 챔피언은 어디까지 포함되나요?</b></p>
+    <ul>
+      <li>현재 기준으로 167개 챔피언이 정답 후보에 포함되어 있습니다.</li>
+    </ul>
+    <p><b>Q. 더 자세한 정보나 소스코드는?</b></p>
+    <ul>
+      <li><a href="https://github.com/926kaul/LoLmantle" target="_blank">LoLmantle GitHub</a>에서 확인하세요.</li>
+    </ul>
+  </div>
+</footer>
+</html>
